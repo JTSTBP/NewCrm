@@ -41,7 +41,7 @@ app.use('/api/attendance', attendanceRoutes);
 
 // Basic Route
 app.get('/', (req, res) => {
-    res.send('Backend Server is running');
+    res.send('New CRM Backend Server is running');
 });
 
 // Start Server
