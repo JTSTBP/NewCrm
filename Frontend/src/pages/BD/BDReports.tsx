@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Download, Filter, PieChart as PieChartIcon, BarChart3, TrendingUp, Briefcase, PhoneCall, Loader2 } from 'lucide-react';
+import { Download, Filter, PieChart as PieChartIcon, TrendingUp, Briefcase, PhoneCall, Loader2 } from 'lucide-react';
 import { API_BASE_URL } from '../../config';
 import toast from 'react-hot-toast';
 import {
@@ -145,8 +145,9 @@ const BDReports: React.FC = () => {
                                         label={({ cx, cy, midAngle, innerRadius, outerRadius, value, index }) => {
                                             const RADIAN = Math.PI / 180;
                                             const radius = 25 + innerRadius + (outerRadius - innerRadius);
-                                            const x = cx + radius * Math.cos(-midAngle * RADIAN);
-                                            const y = cy + radius * Math.sin(-midAngle * RADIAN);
+                                            const angle = midAngle || 0;
+                                            const x = cx + radius * Math.cos(-angle * RADIAN);
+                                            const y = cy + radius * Math.sin(-angle * RADIAN);
                                             return (
                                                 <text x={x} y={y} fill={COLORS[index % COLORS.length]} textAnchor={x > cx ? 'start' : 'end'} dominantBaseline="central" fontSize={11} fontWeight="bold">
                                                     {data.myLeadsByStage[index].name} ({value})
@@ -154,7 +155,7 @@ const BDReports: React.FC = () => {
                                             );
                                         }}
                                     >
-                                        {data.myLeadsByStage.map((entry, index) => (
+                                        {data.myLeadsByStage.map((_, index) => (
                                             <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                                         ))}
                                     </Pie>
@@ -196,8 +197,9 @@ const BDReports: React.FC = () => {
                                         label={({ cx, cy, midAngle, innerRadius, outerRadius, value, index }) => {
                                             const RADIAN = Math.PI / 180;
                                             const radius = 25 + innerRadius + (outerRadius - innerRadius);
-                                            const x = cx + radius * Math.cos(-midAngle * RADIAN);
-                                            const y = cy + radius * Math.sin(-midAngle * RADIAN);
+                                            const angle = midAngle || 0;
+                                            const x = cx + radius * Math.cos(-angle * RADIAN);
+                                            const y = cy + radius * Math.sin(-angle * RADIAN);
                                             return (
                                                 <text x={x} y={y} fill={OUTCOME_COLORS[index % OUTCOME_COLORS.length]} textAnchor={x > cx ? 'start' : 'end'} dominantBaseline="central" fontSize={11} fontWeight="bold">
                                                     {data.myCallOutcomes[index].name} ({value})
@@ -205,7 +207,7 @@ const BDReports: React.FC = () => {
                                             );
                                         }}
                                     >
-                                        {data.myCallOutcomes.map((entry, index) => (
+                                        {data.myCallOutcomes.map((_, index) => (
                                             <Cell key={`cell-${index}`} fill={OUTCOME_COLORS[index % OUTCOME_COLORS.length]} />
                                         ))}
                                     </Pie>
@@ -235,7 +237,7 @@ const BDReports: React.FC = () => {
                                     <YAxis dataKey="name" type="category" axisLine={false} tickLine={false} tick={{ fontSize: 11, fill: '#64748b', fontWeight: 'bold' }} width={80} />
                                     <Tooltip content={<CustomTooltip />} cursor={{ fill: '#f8fafc' }} />
                                     <Bar dataKey="value" name="Leads" fill="#f59e0b" radius={[0, 4, 4, 0]} barSize={20}>
-                                        {data.myLeadsByIndustry.map((entry, index) => (
+                                        {data.myLeadsByIndustry.map((_, index) => (
                                             <Cell key={`cell-${index}`} fill={COLORS[(index + 4) % COLORS.length]} />
                                         ))}
                                     </Bar>

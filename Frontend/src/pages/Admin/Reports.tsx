@@ -3,17 +3,18 @@ import { API_BASE_URL } from '../../config';
 import toast from 'react-hot-toast';
 import { Loader2, TrendingUp, PieChart as PieChartIcon, Award, Briefcase, Download } from 'lucide-react';
 import {
-    BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer,
+    XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer,
     PieChart, Pie, Cell, AreaChart, Area
 } from 'recharts';
 
 import DateRangeFilter from '../../components/common/DateRangeFilter';
+import AgentCallsModal from '../../components/modals/AgentCallsModal';
 
 interface ReportData {
     leadsByStage: { name: string; value: number }[];
     leadsByIndustry: { name: string; value: number }[];
     monthlyTimeline: { name: string; calls: number }[];
-    agentPerformance: { name: string; calls: number; leads: number; won: number; onboarded: number; winRate: number }[];
+    agentPerformance: { agentId: string; name: string; calls: number; leads: number; won: number; onboarded: number; winRate: number }[];
     summaryStats?: {
         totalLeads: number;
         totalUsers: number;
@@ -41,6 +42,8 @@ const Reports: React.FC = () => {
     const [data, setData] = useState<ReportData | null>(null);
     const [loading, setLoading] = useState(true);
     const [dateRange, setDateRange] = useState<{ startDate: string, endDate: string } | null>(getCurrentMonthRange());
+    const [selectedAgent, setSelectedAgent] = useState<{ id: string, name: string } | null>(null);
+    const [isModalOpen, setIsModalOpen] = useState(false);
 
     useEffect(() => {
         fetchReportData();
@@ -320,7 +323,17 @@ const Reports: React.FC = () => {
                                                 </div>
                                                 {agent.name}
                                             </td>
-                                            <td className="py-4 px-6 text-center font-bold text-slate-600">{agent.calls}</td>
+                                            <td className="py-4 px-6 text-center">
+                                                <button
+                                                    onClick={() => {
+                                                        setSelectedAgent({ id: agent.agentId, name: agent.name });
+                                                        setIsModalOpen(true);
+                                                    }}
+                                                    className="px-3 py-1.5 rounded-lg bg-slate-50 text-slate-700 font-extrabold text-sm hover:bg-[#0ea5e9] hover:text-white hover:shadow-md hover:shadow-sky-500/20 transition-all cursor-pointer border border-transparent hover:border-sky-200"
+                                                >
+                                                    {agent.calls}
+                                                </button>
+                                            </td>
                                             <td className="py-4 px-6 text-center font-bold text-slate-600">{agent.leads}</td>
                                             <td className="py-4 px-6 text-center font-bold text-blue-600">{agent.won}</td>
                                             <td className="py-4 px-6">
@@ -358,6 +371,17 @@ const Reports: React.FC = () => {
                 </div>
 
             </div>
+
+            {selectedAgent && (
+                <AgentCallsModal
+                    isOpen={isModalOpen}
+                    onClose={() => setIsModalOpen(false)}
+                    agentId={selectedAgent.id}
+                    agentName={selectedAgent.name}
+                    startDate={dateRange?.startDate}
+                    endDate={dateRange?.endDate}
+                />
+            )}
         </div>
     );
 };

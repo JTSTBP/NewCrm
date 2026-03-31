@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import {
     X, Plus, Trash2, Mail, Phone, Laptop, Smartphone,
-    Building2, Globe, Users, User, Linkedin, MapPin, Briefcase,
-    Calendar, Edit2, Save, Clock, CheckCircle2, MessageSquare,
-    ExternalLink, Activity, UserPlus, Loader2, AlertCircle,
+    Globe, User, Linkedin,
+    Calendar, CheckCircle2, MessageSquare,
     LayoutPanelTop, Check, Pencil, ClipboardList, TrendingUp,
     ArrowRightLeft, UserCheck, UserMinus, RefreshCw, CheckCheck,
-    History, BarChart3, ChevronDown, Shield
+    History, BarChart3, ChevronDown, AlertCircle
 } from 'lucide-react';
 import toast from 'react-hot-toast';
 import PostCallFeedbackModal from './PostCallFeedbackModal';

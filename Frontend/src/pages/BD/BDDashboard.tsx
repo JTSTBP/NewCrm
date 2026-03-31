@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import {
     Target, TrendingUp, Users, Phone, CheckSquare, AlertCircle,
-    Activity, Loader2, Calendar, Building2, ArrowUpRight, ArrowDownRight,
+    Activity, Loader2, Building2, ArrowUpRight, ArrowDownRight,
     BarChart3, Clock, Star, ChevronRight
 } from 'lucide-react';
 import { API_BASE_URL } from '../../config';

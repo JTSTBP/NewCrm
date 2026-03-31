@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { X, Phone, User, MessageCircle, Calendar, Clock, CheckSquare, Save, Loader2, AlertCircle, MessageSquare, CheckCircle2, TrendingUp, CalendarPlus, ChevronDown } from 'lucide-react';
+import { Phone, Calendar, Save, MessageSquare, CheckCircle2, TrendingUp, CalendarPlus, ChevronDown } from 'lucide-react';
 import { API_BASE_URL } from '../../config';
 import toast from 'react-hot-toast';
 

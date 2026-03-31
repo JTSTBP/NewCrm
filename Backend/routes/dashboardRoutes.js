@@ -194,6 +194,7 @@ router.get('/admin-reports', auth, async (req, res) => {
             });
 
             return {
+                agentId: item._id,
                 name: user.name,
                 calls: item.callCount,
                 leads: leadsAssigned,
@@ -213,6 +214,60 @@ router.get('/admin-reports', auth, async (req, res) => {
             summaryStats
         });
 
+    } catch (err) {
+        console.error(err.message);
+        res.status(500).send('Server Error');
+    }
+});
+
+// @route   GET /api/dashboard/agent-calls
+// @desc    Get detailed call logs for a specific agent
+// @access  Private/Admin
+router.get('/agent-calls', auth, async (req, res) => {
+    try {
+        if (req.user.role !== 'Admin') {
+            return res.status(403).json({ message: 'Access denied' });
+        }
+
+        const { agentId, startDate, endDate } = req.query;
+        if (!agentId) {
+            return res.status(400).json({ message: 'Agent ID is required' });
+        }
+
+        let query = { userId: agentId };
+
+        if (startDate && endDate) {
+            const start = new Date(startDate);
+            const end = new Date(endDate);
+            end.setHours(23, 59, 59, 999);
+            query.timestamp = { $gte: start, $lte: end };
+        }
+
+        const calls = await CallActivity.find(query)
+            .sort({ timestamp: -1 })
+            .populate('leadId', 'company_name points_of_contact');
+
+        const formattedCalls = calls.map(call => {
+            // Find POC name from lead's points_of_contact
+            let pocName = 'Unknown';
+            if (call.leadId && call.leadId.points_of_contact) {
+                const poc = call.leadId.points_of_contact.id(call.pocId);
+                if (poc) pocName = poc.name;
+            }
+
+            return {
+                _id: call._id,
+                companyName: call.leadId ? call.leadId.company_name : 'Deleted Lead',
+                pocName: pocName,
+                phoneNumber: call.phone,
+                callType: call.device || 'Manual',
+                timestamp: call.timestamp,
+                remarks: call.remarks || 'No remarks',
+                stageAfterCall: call.stage
+            };
+        });
+
+        res.json(formattedCalls);
     } catch (err) {
         console.error(err.message);
         res.status(500).send('Server Error');

@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { X, Upload, Download, AlertCircle, CheckCircle2, Loader2, FileText, HelpCircle } from 'lucide-react';
+import { X, Upload, Download, AlertCircle, CheckCircle2, Loader2, FileText } from 'lucide-react';
 import { API_BASE_URL } from '../../config';
 import * as XLSX from 'xlsx';
 import toast from 'react-hot-toast';

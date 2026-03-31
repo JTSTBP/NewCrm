@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { UserPlus, Search, Filter, Edit2, Trash2, Shield, Mail, Phone, Clock, MoreVertical, CircleDot, UserX, UserCheck, Calendar } from 'lucide-react';
+import { UserPlus, Search, Edit2, Trash2, Shield, Mail, Phone, Clock, MoreVertical, CircleDot, UserX, UserCheck, Calendar } from 'lucide-react';
 import { useSearchParams } from 'react-router-dom';
 import { API_BASE_URL } from '../../config';
 import UserModal from '../../components/modals/UserModal';
@@ -170,8 +170,7 @@ const Users: React.FC = () => {
 
         const matchesRole = roleFilter === 'All' || user.role === roleFilter;
 
-        const matchesReporter = reporterFilter === 'All' ||
-            (user.reporter?._id === reporterFilter || user.reporter === reporterFilter);
+        const matchesReporter = reporterFilter === 'All' || user.reporter?._id === reporterFilter;
 
         const joiningDate = new Date(user.date_of_joining || user.created_at);
         const matchesFrom = !joinFromDate || joiningDate >= new Date(joinFromDate);

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { X, User, Phone, Mail, Briefcase, Plus, Loader2, AlertCircle } from 'lucide-react';
+import { X, User, Phone, Mail, Briefcase, Linkedin } from 'lucide-react';
 import { API_BASE_URL } from '../../config';
 import toast from 'react-hot-toast';
 

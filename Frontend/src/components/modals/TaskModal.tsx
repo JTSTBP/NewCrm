@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { X, Calendar, ClipboardList, CheckCircle2, Clock, AlignLeft, AlertCircle, Loader2 } from 'lucide-react';
+import { X, Calendar, ClipboardList, CheckCircle2 } from 'lucide-react';
 import { API_BASE_URL } from '../../config';
 import toast from 'react-hot-toast';
 
